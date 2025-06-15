@@ -159,6 +159,7 @@ MariaDB is used as a drop-in replacement for MySQL and according to an AWS artic
    - `GRANT ALL PRIVILEGES ON wordpress_blog TO 'Thepottersclay'@'localhost';`
    - `FLUSH PRIVILEGES;`
    - `EXIT`
+
   
 
 ## Day 3
@@ -207,4 +208,19 @@ MariaDB is used as a drop-in replacement for MySQL and according to an AWS artic
 6. Make sure to verify that status = active `sudo systemctl status nginx`.
 
 
+
 ## Day 4
+
+## WordPress Installation
+### Wordpress Download
+Integrate WordPress with the server
+1. Download/extract:
+   - cd /tmp
+   - wget https://wordpress.org/latest.zip
+   - sudo unzip latest.zip
+   - sudo mv wordpress /var/www/html/thepottersclay.com.au/public
+2. WordPress permissions:
+   * Specifically ensuring that apache has the correct read/write permissions
+     - sudo chown -R www-data:www-data /var/www/html/thepottersclay.com.au/public
+     - sudo find /var/www/html/thepottersclay.com.au/public -type d -exec chmod 755 {} \;
+     - sudo find /var/www/html/thepottersclay.com.au/public -type f -exec chmod 644 {} \;
