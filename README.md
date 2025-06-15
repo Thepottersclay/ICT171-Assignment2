@@ -145,3 +145,66 @@ Apache will be setup to listen on port (8081) for http & (8443) for https, this 
    - **Do not be alarmed**, There will be a long string of sentences, this is good! You have the html output.
    - INSERT IMAGE
 ## MariaDB
+MariaDB is used as a drop-in replacement for MySQL and according to an AWS article, it has better speeds over MySQL.
+1. Install MariaDB `sudo apt install mariadb-server mariadb-client -y`
+2. Secure Installation `sudo mysql_secure_installation`
+   - Press `Enter` when prompted for the root password (It has not yet been set).
+   - Press `n` when prompted to set a password.
+   - Press `y` & `Enter` for all other queries to remove anonymous users, disable remote root logins, remove test database, and, reload privileges
+3. Create WordPress User/Database
+   - `sudo mariadb -u root`
+     **SQL Commands**
+   - `CREATE DATABASE wordpress_blog DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;`
+   - `CREATE USER 'Thepottersclay'@'localhost' IDENTIFIED BY 'CaityTy1110';`
+   - `GRANT ALL PRIVILEGES ON wordpress_blog TO 'Thepottersclay'@'localhost';`
+   - `FLUSH PRIVILEGES;`
+   - `EXIT`
+  
+
+## Day 3
+
+## Nginx as a reverse proxy (frontend)
+### Nginx Installation
+**Put description**
+1. Install Nginx on server `sudo apt install nginx -y`
+   - Make sure to verify that status = active `sudo systemctl status nginx`.
+2. Configure the nginx global settings through the `nginx.conf` file `sudo nano /etc/nginx/nginx.conf`
+   - Ensure that `worker_processes auto;` is at the top of the file.
+   - `multi_accept on;` will most likely need to be uncommented.
+   - **Add** `keepalive_timer 15;`.
+   - `server_tokens off` should be uncommented in the http section.
+   - **Add** `client_max_body_size 64m;`.
+   - `gzip_proxied any;` will need to be uncommented.
+   - `gzip_comp_level 2;` will need to be uncommented and set to 2.
+   - `gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;` will need to be uncommented.
+   - **Add** `fastcgi_cache_path /usr/share/nginx/fastcgi_cache levels=1:2 keys_zone=phpcache:100m max_size=10g inactive=60m use_temp_path=off;`
+   - **Add** `fastcgi_cache_key "$scheme$request_method$host$request_uri";`
+- Save and Exit the file `ctrl+x`, `y`, `Enter`.
+3. (Back in the file) Nginx Catch-All Block
+  To stop just anyone from connecting through direct IP access.
+  - Under the line `include /etc/nginx/sites-enabled/*;`,
+  - **Add**
+  - `server {`
+  - `listen 80 default_server;`
+  - `listen [::]:80 default_server;`
+  - `server_name _;`
+  - `return 444;`
+  - `}`
+## Reverse Proxy Settings
+1. Remove any remaining default nginx config using:
+   - `sudo rm -f /etc/nginx/sites-available/default`
+   - `sudo rm -f /etc/nginx/sites-enabled/default`
+2. Create a DNS config file `sudo nano /etc/nginx/sites-available/thepottersclay.com.au.conf`
+   - INSERT IMAGE
+   - Save and Exit the file `ctrl+x`, `y`, `Enter`.
+3. Enable server and test config
+   - Site configuration:
+   - `sudo ln -s /etc/nginx/sites-available/thepottersclay.com.au.conf /etc/nginx/sites-enabled/thepottersclay.com.au.conf`
+4. Test the configuration syntax: `sudo nginx -t`
+   - What you want to see: `Syntax OK` & `test is successful`
+   - INSERT IMAGE
+5. Restart nginx `sudo systemctl restart nginx`
+6. Make sure to verify that status = active `sudo systemctl status nginx`.
+
+
+## Day 4
