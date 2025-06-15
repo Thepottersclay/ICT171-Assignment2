@@ -1,5 +1,5 @@
 # ICT171-Assignment2
-This file is created in such a way that in the event of a full server criticality, one can follow the instructions below and have 
+This document is in place so that in the event of a full server criticality, one can rely soley on the instructions below, to get a server replicate up and running in a matter of hours. Each step of the server development process will be made up of written instructions, command line code segments,  accompanied by detailed images for crucial steps, and all command line code segments which can be copy/pasted for convenience, especially in file changing, and screenshots of important outputs.
 
 
 ## AWS Setup Instructions
