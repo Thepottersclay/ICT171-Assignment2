@@ -4,7 +4,9 @@ Student Name: Tyrone Steele
 Student ID: 35500984
 
 Live Server URL: https://thepottersclay.com.au/
+
 Global IP Address: 54.206.238.201
+
 Server Recording Explainer: https://youtu.be/2IQlAw7lDHk
 
 Project Overview:
